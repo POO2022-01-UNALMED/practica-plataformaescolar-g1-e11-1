@@ -45,6 +45,7 @@ public class Main {
 				case 4:
 					System.out.println("Saliendo...");
 					Serializer.serializeAll();
+					sc.close();
 					System.exit(0);
 					break;
 				default:

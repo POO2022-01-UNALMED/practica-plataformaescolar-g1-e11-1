@@ -128,7 +128,7 @@ public class Session
 								System.out.println("Opcion invalida, por favor ingrese una opcion valida:");
 						}
 						
-						User e = found_students.get(sopt);
+						//User e = found_students.get(sopt);
 						
 						/*
 						 * 

@@ -24,6 +24,11 @@ public class EvaluationEvent implements Serializable {
 		this.date = d;
 	}
 	
+	public String getDate()
+	{
+		return this.date;
+	}
+	
 	void setGrade(float grade)
 	{
 		this.grade = grade;
