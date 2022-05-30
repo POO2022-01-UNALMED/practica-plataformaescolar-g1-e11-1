@@ -83,8 +83,9 @@ public abstract class User implements Serializable {
 		this.sex = sex;
 	}
 	
-	public abstract void check_perf();
+	public abstract String check_perf();
 	public abstract String toString();
+	public abstract void kick();
 	
 	
 }

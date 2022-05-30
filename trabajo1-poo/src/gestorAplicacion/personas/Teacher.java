@@ -16,16 +16,11 @@ public class Teacher extends User
 	
 	Teacher(String name, int id) {
 		super(name, id);
-		// TODO Auto-generated constructor stub
-	}
-
-	public void check_perf() { // Comprobar el desempeno del profesor.
 		
 	}
 
-	public void startInterface() { // Inicializar la interfaz para usuarios de tipo profesor.
-		// TODO Auto-generated method stub
-		
+	public String check_perf() { // Comprobar el desempeno del profesor.
+		return null;
 	}
 
 	public ArrayList<Course> getAssignedCourses() {
@@ -33,7 +28,7 @@ public class Teacher extends User
 	}
 
 	public ArrayList<Subject> getAssignedSubjects() {
-		return assignedSubjects;
+		return this.assignedSubjects;
 	}
 
 	public void setAssignedSubjects(ArrayList<Subject> assignedSubjects) {
@@ -77,6 +72,17 @@ public class Teacher extends User
 			s += sb.getSname() + "-" + sb.getCourse().getCourseName() + " "; // Anade las materias que dicta en el curso donde las dicta.
 		}
 		return s;
+	}
+
+	public void kick() { // Saca al profesor de todos los cursos y de los profesores inscritos, efectivamente removiendolo del sistema.
+		for(Teacher t : Teacher.created_teachers)
+		{
+			if(t.getIdentification() == this.identification)
+				Teacher.created_teachers.remove(t);
+		}
+		
+		for(Course ac : this.assignedCourses)
+			ac.rmvTeacher(this);	
 	}
 	
 }

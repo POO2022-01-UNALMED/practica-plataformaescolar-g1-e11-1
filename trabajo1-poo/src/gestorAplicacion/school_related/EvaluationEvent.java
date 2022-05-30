@@ -5,31 +5,18 @@ import java.io.Serializable;
 public class EvaluationEvent implements Serializable {
 	
 	private static final long serialVersionUID = 7774322636999465955L;
-	private String date;
 	private final String subject_name;
 	
 	private final String name;
-	private float grade;
-	private final int num;
+	private double grade;
 	
-	public EvaluationEvent(String subname, String evname, int no_of_ev)
+	public EvaluationEvent(String subname, String evname)
 	{
 		this.subject_name = subname;
-		this.name = evname;
-		this.num = no_of_ev;	
+		this.name = evname;	
 	}
 	
-	void setDate(String d)
-	{
-		this.date = d;
-	}
-	
-	public String getDate()
-	{
-		return this.date;
-	}
-	
-	void setGrade(float grade)
+	public void setGrade(float grade)
 	{
 		this.grade = grade;
 	}
@@ -42,13 +29,9 @@ public class EvaluationEvent implements Serializable {
 		return name;
 	}
 	
-	public float getGrade()
+	public double getGrade()
 	{
 		return this.grade;
-	}
-
-	public int getNum() {
-		return num;
 	}
 
 }

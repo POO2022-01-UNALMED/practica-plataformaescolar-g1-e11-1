@@ -15,16 +15,16 @@ public class Subject implements Serializable // Subject pertenece a un estudiant
 	private Student student;
 	private String guidebook;
 	
-	private ArrayList<EvaluationEvent> takenTest;
+	private ArrayList<EvaluationEvent> taken_tests;
 	
-	Subject(String sname, Teacher teacher, Course course)
+	public Subject(String sname, Teacher teacher, Course course)
 	{
 		this.sname = sname;
 		this.assigned_teacher = teacher;
 		this.course = course;
 	}
 	
-	Teacher getTeacher()
+	public Teacher getTeacher()
 	{
 		return this.assigned_teacher;
 	}
@@ -44,21 +44,15 @@ public class Subject implements Serializable // Subject pertenece a un estudiant
 		this.guidebook = gb;
 	}
 	
-	EvaluationEvent getExamInfo(int test_no) // Obtener informacion sobre un test particular de la materia.
+	public ArrayList<EvaluationEvent> getExamInfo() // Obtener informacion sobre un test particular de la materia.
 	{
-		if(this.takenTest.size() > test_no)
-		{
-			return this.takenTest.get(test_no);
-		}
-		
-		System.out.println("The requested test does not exist."); // Los examenes tienen un numero asociado segun el orden en el que se programan, examen 1, 2, 3... etc.
-		return null; // Que es el mismo indice (restandole uno) en el arreglo de examenes (takenTest)
+		return this.taken_tests;
 	}
 	
 	void addEvaluation(EvaluationEvent ev) // Programar un test particular para la materia.
 	{
 		if(ev != null)
-			this.takenTest.add(ev);
+			this.taken_tests.add(ev);
 	}
 
 	public String getSname() {

@@ -14,9 +14,9 @@ import java.io.ObjectOutputStream;
 public class Serializer {
 	private static ArrayList<File> filenames = new ArrayList<File>();
 	static {
-		filenames.add(new File("src/bd/Students.txt"));
-		filenames.add(new File("src/bd/Teachers.txt"));
-		filenames.add(new File("src/bd/Courses.txt"));
+		filenames.add(new File("src/baseDatos/temp/Students.txt"));
+		filenames.add(new File("src/baseDatos/temp/Teachers.txt"));
+		filenames.add(new File("src/baseDatos/temp/Courses.txt"));
 	}
 
 	public static void serializeAll() throws IOException {

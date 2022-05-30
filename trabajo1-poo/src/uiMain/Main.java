@@ -8,6 +8,9 @@ import baseDatos.Serializer;
 
 
 public class Main {
+	
+	// public static School school = new School();
+	public static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) throws IOException 
 	{
@@ -18,13 +21,13 @@ public class Main {
 		
 		System.out.println("1. Cursos");
 		System.out.println("2. Profesores");
-		System.out.println("3. Estudiantes\n");
-		
-		System.out.print("Ingrese su opcion: ");
-		
+		System.out.println("3. Estudiantes");
+		System.out.println("4. Salir y guardar cambios\n");
+				
 		while(true)
 		{
-			Scanner sc = new Scanner(System.in);
+			
+			System.out.print("Ingrese su opcion: ");
 			int opt = sc.nextInt();
 			System.out.println("");
 			
@@ -44,12 +47,12 @@ public class Main {
 					break;
 				case 4:
 					System.out.println("Saliendo...");
-					Serializer.serializeAll();
+					Serializer.serializeAll(); // PARA SERIALIZAR LOS CAMBIOS HAY QUE SALIR CORRECTAMENTE DEL PROGRAMA, UN CIERRE BRUSCO NO GUARDARA CAMBIOS!.
 					sc.close();
 					System.exit(0);
 					break;
 				default:
-					System.out.println("Invalid option, please re-enter your option.\n");
+					System.out.println("Opcion invalida, por favor reingrese una opcion.\n");
 					break;
 			}
 			
