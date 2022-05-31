@@ -23,6 +23,16 @@ public class Student extends User
 		subjects = new ArrayList<Subject>();
 		
 		academic_history = new AcademicHistory();
+		Main.school.created_students.add(this);
+	}
+	
+	public Student(String name, int id, String bd, String sex, String bloodtype, String birthplace) {
+		super(name, id, bd, sex, bloodtype, birthplace);
+		Main.school.created_students.add(this);
+		subjects = new ArrayList<Subject>();
+		
+		academic_history = new AcademicHistory();
+		Main.school.created_students.add(this);
 	}
 	
 	public boolean isEnrolled()

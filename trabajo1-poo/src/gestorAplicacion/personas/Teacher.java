@@ -13,10 +13,18 @@ public class Teacher extends User
 	private ArrayList<Course> assignedCourses;
 	private ArrayList<Subject> assignedSubjects;
 	
-	Teacher(String name, int id) {
+	public Teacher(String name, int id) {
 		super(name, id);
 		assignedCourses = new ArrayList<Course>();
 		assignedSubjects = new ArrayList<Subject>();
+		Main.school.created_teachers.add(this);
+	}
+	
+	public Teacher(String name, int id, String bd, String sex, String bloodtype, String birthplace) {
+		super(name, id, bd, sex, bloodtype, birthplace);
+		assignedCourses = new ArrayList<Course>();
+		assignedSubjects = new ArrayList<Subject>();
+		Main.school.created_teachers.add(this);
 	}
 
 	public String check_perf() { // Comprobar el desempeno del profesor.

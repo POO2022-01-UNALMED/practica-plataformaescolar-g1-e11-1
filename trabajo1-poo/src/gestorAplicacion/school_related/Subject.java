@@ -94,6 +94,6 @@ public class Subject implements Serializable // Subject pertenece a un estudiant
 		{
 			ttl += ev.getGrade();
 		}
-		return "Nombre de la materia: " + this.sname  + "Dictada por: "  + ((this.assigned_teacher == null)? "Desconocido" : this.assigned_teacher.getName()) + "\n" + "Nota: " + ttl/3;
+		return "Nombre de la materia: " + this.sname  + "\n" + "Dictada por: "  + ((this.assigned_teacher == null)? "Desconocido" : this.assigned_teacher.getName()) + "\n";
 	}
 }

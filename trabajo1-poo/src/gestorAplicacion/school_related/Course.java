@@ -145,7 +145,19 @@ public class Course implements Serializable
 		for(Subject s : this.course_subjects) // Cambiar las referencias del profesor que dicta la materia.
 		{
 			if(s.getSname() == sname)
+			{
+				if(s.getTeacher() != null)
+				{
+					Teacher prev_teach = s.getTeacher();
+					ArrayList<Subject> prev_assigned = new ArrayList<Subject>(prev_teach.getAssignedSubjects());
+					for(Subject sbj : prev_assigned)
+					{
+						if(sbj.getSname() == sname && sbj.getCourse() == this)
+							prev_teach.getAssignedSubjects().remove(sbj);
+					}
+				}
 				s.setTeacher(t2);
+			}
 		}
 		
 		for(Student s : this.enrolled_students) // Cambiar las referencias para cada instancia de la materia de cada estudiante.
@@ -162,16 +174,22 @@ public class Course implements Serializable
 	{
 		for(Subject s : this.course_subjects) // Cambiar las referencias del profesor que dicta la materia.
 		{
-			if(s.getTeacher().getIdentification() == t1.getIdentification()) // Si el profesor dicta la materia, cambiarlo por el profesor referenciado por t2.
-				s.setTeacher(t2);
+			if(s.getTeacher() != null)
+			{
+				if(s.getTeacher().getIdentification() == t1.getIdentification()) // Si el profesor dicta la materia, cambiarlo por el profesor referenciado por t2.
+					s.setTeacher(t2);
+			}
 		}
 		
 		for(Student s : this.enrolled_students) // Cambiar las referencias para cada instancia de la materia de cada estudiante.
 		{
 			for(Subject sb : s.getSubjects())
 			{
-				if(sb.getTeacher().getIdentification() == t1.getIdentification()) // Si el profesor dicta la materia, cambiarlo por el profesor referenciado por t2.
-					sb.setTeacher(t2);
+				if(sb.getTeacher() != null)
+				{
+					if(sb.getTeacher().getIdentification() == t1.getIdentification()) // Si el profesor dicta la materia, cambiarlo por el profesor referenciado por t2.
+						sb.setTeacher(t2);
+				}
 			}
 		}
 	}

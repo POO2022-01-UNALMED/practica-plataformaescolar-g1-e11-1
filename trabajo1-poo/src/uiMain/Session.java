@@ -6,6 +6,7 @@ import gestorAplicacion.personas.Student;
 import gestorAplicacion.personas.Teacher;
 import gestorAplicacion.personas.User;
 import gestorAplicacion.school_related.Course;
+import gestorAplicacion.school_related.Subject;
 
 public class Session
 {	
@@ -86,7 +87,7 @@ public class Session
 						{
 						    c_opt = Main.sc.nextInt();// Lee la opcion del usuario, esta funcion lee un byte, por lo que al leer 1 leera realmente 31.
 						    Main.sc.nextLine();
-							if(opt > 0 && opt <= Course.getCreated().size())
+							if(c_opt > 0 && c_opt <= Course.getCreated().size())
 								break;
 							else
 								System.out.println("Numero invalido, ingrese una nueva opcion.");
@@ -337,6 +338,95 @@ public class Session
 						System.out.println("No se encontraron profesores con ese nombre/apellido.");
 					break;
 				case 3:
+					System.out.println("Asignar profesor a una materia (si ya hay un profesor en esa materia, se reemplazara por el nuevo profesor): ");
+					System.out.println("Ingrese nombres, segundos nombres o apellidos (no es necesario que este completo, se buscaran los match mas cercanos):");
+					
+					String paname = Main.sc.nextLine();
+					
+					ArrayList<Teacher> foundtchs = new ArrayList<>();
+					for(Teacher e : Teacher.getCreated()) // Encuentra todos los profesores que dentro de su nombre contengan la string de busqueda. (Filtro)
+					{
+						if(e.getName().contains(paname))
+							foundtchs.add(e);	// Si encuentra un match, lo anade al arreglo de encontrados
+					}
+					
+					int found_i = 1;
+					for(Teacher e : foundtchs)
+					{
+						System.out.print(found_i++ + ". ");
+						System.out.println(e +"\n");
+					}
+					
+					System.out.println("Seleccione el profesor a asignar: ");
+					
+					if(foundtchs.size() > 0) // Si se encontraron profesores con ese match
+					{
+						int topt = 0;
+						while(true)
+						{
+							topt = Main.sc.nextInt();
+							Main.sc.nextLine();
+							
+							if(topt > 0 && topt <= foundtchs.size())
+								break;
+							else
+								System.out.println("Opcion invalida, por favor ingrese una opcion valida:");
+						}
+						
+						User foundt = foundtchs.get(topt-1);
+						
+						System.out.println("Seleccione el curso al que desea asignarlo: ");
+						int idx_c = 1;
+						for(Course c : Course.getCreated()) // Muestra al usuario todos los cursos existentes.
+						{
+							System.out.print(idx_c++ + ". ");
+							System.out.println(c.getCourseName() + "\n");
+						}
+						
+						System.out.println("\n");
+						System.out.println("Su opcion (numero del curso): ");
+						int c_opt;
+						
+						if(Course.getCreated().size() > 0)
+						{
+							while(true)
+							{
+							    c_opt = Main.sc.nextInt();// Lee la opcion del usuario, esta funcion lee un byte, por lo que al leer 1 leera realmente 31.
+							    Main.sc.nextLine();
+								if(c_opt > 0 && c_opt <= Course.getCreated().size())
+									break;
+								else
+									System.out.println("Numero invalido, ingrese una nueva opcion.");
+							}
+							
+							Course ctoa = Course.getCreated().get(c_opt-1);
+							ArrayList<Subject> course_subjects = ctoa.getCourse_subjects(); // Las materias del curso que se selecciono.
+							int idxs = 1;
+							for(Subject sbj : course_subjects) // Imprimir las materias del curso y dar a elegir al usuario
+							{
+								System.out.print(idxs++ + ". ");
+								System.out.println(sbj);
+							}
+							
+							int s_opt= 0;
+							while(true) // No hay necesidad de rodear este con un if porque el arreglo de materias de un curso nunca esta vacio
+							{
+							    s_opt = Main.sc.nextInt();// Lee la opcion del usuario, esta funcion lee un solo byte y el "\n" que le sigue hay que leerlo para solventar bugs.
+							    Main.sc.nextLine();
+								if(s_opt > 0 && s_opt <= course_subjects.size())
+									break;
+								else
+									System.out.println("Numero invalido, ingrese una nueva opcion.");
+							}
+							
+							ctoa.add_teacher((Teacher) foundt);
+							((Teacher) foundt).getAssignedSubjects().add(course_subjects.get(s_opt-1));
+							ctoa.updateSubjects(course_subjects.get(s_opt-1).getSname(), (Teacher) foundt);
+						}
+					}
+					
+					else
+						System.out.println("No se encontraron profesores con ese nombre/apellido.");
 					break;
 				case 4:
 					return;
