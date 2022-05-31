@@ -3,6 +3,7 @@ package uiMain;
 import java.io.IOException;
 import java.util.ArrayList;
 import gestorAplicacion.personas.Student;
+import gestorAplicacion.personas.Teacher;
 import gestorAplicacion.personas.User;
 import gestorAplicacion.school_related.Course;
 
@@ -20,9 +21,10 @@ public class Session
 			
 		while(true)
 		{
-			System.out.println("Ingrese una opcion: ");
+			System.out.print("Ingrese una opcion: ");
 			
 			int opt = Main.sc.nextInt();
+			Main.sc.nextLine();
 			
 			switch(opt)
 			{
@@ -39,10 +41,14 @@ public class Session
 					while(true)
 					{
 						ti = Main.sc.nextInt(); // Recibe la cedula.
+						Main.sc.nextLine(); // Despues de cada nextInt hay que colocar un nextLine para agarrar el "\n" que no se lleva.
 						
 						System.out.println();
 						
-						existent = Student.find(ti); // Buscar la cedula del estudiante en los estudiantes inscritos.
+						if(Student.getCreated().size() > 0)
+						{
+							existent = Student.find(ti); // Buscar la cedula del estudiante en los estudiantes inscritos.
+						}
 						if(existent != null)
 							System.out.print("Ya existe un estudiante con la identificacion ingresada. Ingrese una nueva id:");
 						else
@@ -51,13 +57,13 @@ public class Session
 					
 					User ns = new Student(tn, ti); // Convertir el nombre en string y la cedula a string y luego a int.
 					
-					System.out.println("Ingrese el tipo de sangre: ");
+					System.out.print("Ingrese el tipo de sangre: ");
 					String bt = Main.sc.nextLine();
-					System.out.println("Ingrese el lugar de nacimiento: ");
+					System.out.print("Ingrese el lugar de nacimiento: ");
 					String bp = Main.sc.nextLine();
-					System.out.println("Ingrese el dia de nacimiento (DD/MM/AA): ");
+					System.out.print("Ingrese el dia de nacimiento (DD/MM/AA): ");
 					String bd = Main.sc.nextLine();
-					System.out.println("Ingrese el genero: ");
+					System.out.print("Ingrese el genero: ");
 					String sex = Main.sc.nextLine();
 					
 					ns.setAll(bd, bt, bp, sex);
@@ -66,7 +72,7 @@ public class Session
 					int idx_c = 1;
 					for(Course c : Course.getCreated()) // Muestra al usuario todos los cursos existentes.
 					{
-						System.out.print(idx_c++ + " ");
+						System.out.print(idx_c++ + ". ");
 						System.out.println(c);
 					}
 					
@@ -79,6 +85,7 @@ public class Session
 						while(true)
 						{
 						    c_opt = Main.sc.nextInt();// Lee la opcion del usuario, esta funcion lee un byte, por lo que al leer 1 leera realmente 31.
+						    Main.sc.nextLine();
 							if(opt > 0 && opt <= Course.getCreated().size())
 								break;
 							else
@@ -106,7 +113,7 @@ public class Session
 					int found_idx = 1;
 					for(Student e : found_students)
 					{
-						System.out.print(found_idx++);
+						System.out.print(found_idx++ + ". ");
 						System.out.println(e +"\n");
 					}
 					
@@ -118,6 +125,7 @@ public class Session
 						while(true)
 						{
 							sopt = Main.sc.nextInt();
+							Main.sc.nextLine();
 							
 							if(sopt > 0 && sopt <= found_students.size())
 								break;
@@ -125,7 +133,7 @@ public class Session
 								System.out.println("Opcion invalida, por favor ingrese una opcion valida:");
 						}
 						
-						User e = found_students.get(sopt);
+						User e = found_students.get(sopt-1);
 						
 						System.out.println(e.check_perf()); // Imprimir los datos de ese estudiante.
 					}
@@ -150,7 +158,7 @@ public class Session
 
 					int found_i = 1;
 					for (Student e : found) {
-						System.out.print(found_i++);
+						System.out.print(found_i++ + ". ");
 						System.out.println(e + "\n");
 					}
 
@@ -169,7 +177,7 @@ public class Session
 								System.out.println("Opcion invalida, por favor ingrese una opcion valida:");
 						}
 						
-						User e = found.get(sopt);
+						User e = found.get(sopt-1);
 						
 						e.kick();
 					}
@@ -179,6 +187,7 @@ public class Session
 					
 					break;
 				case 4:
+					System.out.println("Regresando al menu principal...\n");
 					return;
 				default:
 					System.out.println("Opcion no reconocida, por favor ingrese otra opcion.\n");
@@ -201,14 +210,131 @@ public class Session
 			System.out.print("Ingrese una opcion: ");
 			
 			int opt = Main.sc.nextInt();
+			Main.sc.nextLine();
 			
 			System.out.println("\n");
 			
 			switch(opt)
 			{
 				case 1:
+					System.out.println("Usted va a remover a un profesor de un curso. Esto dejara a todas las materias del curso que el profesor");
+					System.out.println("dicta sin un profesor asignado\n");
+					
+					System.out.print("Ingrese nombres, segundos nombres o apellidos (no es necesario que este completo, se buscaran los match mas cercanos): ");
+					
+					String name = Main.sc.nextLine();
+					
+					ArrayList<Teacher> found_teachers = new ArrayList<>();
+					for(Teacher e : Teacher.getCreated()) // Encuentra todos los profesores que dentro de su nombre contengan la string de busqueda. (Filtro)
+					{
+						if(e.getName().contains(name))
+							found_teachers.add(e);	// Si encuentra un match, lo anade a std, que luego se imprimira al usuario.
+					}
+					
+					int found_idx = 1;
+					for(Teacher e : found_teachers)
+					{
+						System.out.print(found_idx++ + ". ");
+						System.out.println(e +"\n");
+					}
+					
+					System.out.println("Seleccione el profesor a remover: ");
+					
+					if(found_teachers.size() > 0) // Si se encontraron profesores con ese match
+					{
+						int topt = 0;
+						while(true)
+						{
+							topt = Main.sc.nextInt();
+							Main.sc.nextLine();
+							
+							if(topt > 0 && topt <= found_teachers.size())
+								break;
+							else
+								System.out.println("Opcion invalida, por favor ingrese una opcion valida:");
+						}
+						
+						User e = found_teachers.get(topt-1); // Seleccionar el profesor elegido por el admin.
+						ArrayList<Course> teacher_courses = ((Teacher)e).getAssignedCourses();
+						
+						if(teacher_courses.size() > 0)
+						{
+							int found_crs = 1;
+							for(Course cs : teacher_courses) // Iterar los cursos del profesor e imprimirlos
+							{
+								System.out.print(found_crs++ + ". ");
+								System.out.println(cs +"\n");
+							}
+							
+							System.out.println("Seleccione el curso del cual quiere remover al profesor.");
+							
+							int copt = 0;
+							while(true)
+							{
+								copt = Main.sc.nextInt();
+								Main.sc.nextLine();
+								
+								if(copt > 0 && copt <= found_teachers.size())
+									break;
+								else
+									System.out.println("Opcion invalida, por favor ingrese una opcion valida:");
+							}
+							
+							teacher_courses.get(copt-1).rmvTeacher((Teacher) e); // Llama a la funcion que quita al profesor del curso especifico.
+							((Teacher) e).rmvSubjects(teacher_courses.get(copt-1)); // Quita las asignaturas que dictaba el profesor en el curso de su arreglo de asignaturas asignadas.
+						}
+						
+						else
+							System.out.println("El profesor no se encuentra en ningun curso.");
+					}
+					
+					else
+						System.out.println("No se encontraron profesores con ese nombre/apellido.\n");
 					break;
 				case 2:
+					System.out.println("Usted va a expulsar un profesor de la escuela, esto dejara a todas las materias que");
+					System.out.println("dicta sin un profesor asignado\n");
+					
+					System.out.print("Ingrese nombres, segundos nombres o apellidos (no es necesario que este completo, se buscaran los match mas cercanos): ");
+					
+					String pname = Main.sc.nextLine();
+					
+					ArrayList<Teacher> matches = new ArrayList<>();
+					for(Teacher e : Teacher.getCreated()) // Encuentra todos los profesores que dentro de su nombre contengan la string de busqueda. (Filtro)
+					{
+						if(e.getName().contains(pname))
+							matches.add(e);	// Si encuentra un match, lo anade a std, que luego se imprimira al usuario.
+					}
+					
+					int found_ix = 1;
+					for(Teacher e : matches)
+					{
+						System.out.print(found_ix++ + ". ");
+						System.out.println(e +"\n");
+					}
+					
+					System.out.println("Seleccione el profesor a remover: ");
+					
+					if(matches.size() > 0) // Si se encontraron profesores con ese match
+					{
+						int topt = 0;
+						while(true)
+						{
+							topt = Main.sc.nextInt();
+							Main.sc.nextLine();
+							
+							if(topt > 0 && topt <= matches.size())
+								break;
+							else
+								System.out.println("Opcion invalida, por favor ingrese una opcion valida:");
+						}
+						
+						User t = matches.get(topt-1);
+						t.kick();
+					}
+					
+					else
+						System.out.println("No se encontraron profesores con ese nombre/apellido.");
 					break;
 				case 3:
 					break;
@@ -234,6 +360,7 @@ public class Session
 			System.out.print("Ingrese una opcion: ");
 			
 			int opt = Main.sc.nextInt();
+			Main.sc.nextLine();
 			
 			switch(opt)
 			{

@@ -6,6 +6,7 @@ import gestorAplicacion.school_related.AcademicHistory;
 import gestorAplicacion.school_related.Course;
 import gestorAplicacion.school_related.EvaluationEvent;
 import gestorAplicacion.school_related.Subject;
+import uiMain.Main;
 
 public class Student extends User 
 {
@@ -15,12 +16,11 @@ public class Student extends User
 	private Course course = null; // Un estudiante puede estar inscrito a un solo curso.
 	private ArrayList<Subject> subjects; // Todos los estudiantes deben inicializarse inscritos a las materias que se dictan en un curso.
 	private AcademicHistory academic_history;
-	
-	private static ArrayList<Student> created_students = new ArrayList<Student>();
 
 	public Student(String name, int id) {
 		super(name, id);
-		Student.created_students.add(this);
+		Main.school.created_students.add(this);
+		subjects = new ArrayList<Subject>();
 		
 		academic_history = new AcademicHistory();
 	}
@@ -45,7 +45,10 @@ public class Student extends User
 		return this.course;
 	}
 
-	public String check_perf() { // Ver las notas del estudiante.
+	public String check_perf() { // Ver las notas del estudiante (del curso actual)
+		if(this.course == null)
+			return "El estudiante no se encuentra en ningun curso";
+		
 		String s = "Informacion academica para el estudiante: " + this.getName() + "\n\n";
 		s += "Curso: " + this.getCourse().getCourseName() + "\n";
 		double all_subject_prom = 0.0;
@@ -56,14 +59,14 @@ public class Student extends User
 			for(EvaluationEvent ev : sb.getExamInfo())
 			{
 				s += "Para la " + ev.getName() + "\n";
-				s += "Nota: " + ev.getGrade() + "\n";
+				s += "Nota: " + String.format("%.2f", ev.getGrade()) + "\n";
 				tg += ev.getGrade();
 			}
-			s += "Promedio: " + tg/3 + "\n\n";
-			all_subject_prom += tg;
+			s += "Promedio: " + String.format("%.2f",tg/3) + "\n\n";
+			all_subject_prom += tg/3;
 		}
 		
-		s += "Promedio de todas las materias: " + all_subject_prom/this.subjects.size();
+		s += "Promedio de todas las materias: " + String.format("%.2f", all_subject_prom/8);
 		return s;
 	}
 
@@ -77,7 +80,7 @@ public class Student extends User
 	
 	public static Student find(String name) // Find by name
 	{
-		for(Student t : Student.created_students)
+		for(Student t : Main.school.created_students)
 		{
 			if(t.getName().equals(name))
 				return t;
@@ -88,7 +91,7 @@ public class Student extends User
 	
 	public static Student find(int id) // Find by id
 	{
-		for(Student t : Student.created_students)
+		for(Student t : Main.school.created_students)
 		{
 			if(t.getIdentification() == id)
 				return t;
@@ -98,11 +101,7 @@ public class Student extends User
 	}
 
 	public static ArrayList<Student> getCreated() {
-		return Student.created_students;
-	}
-
-	public static void setCreated(ArrayList<Student> ar) {
-		Student.created_students = ar;
+		return Main.school.created_students;
 	}
 
 	public String toString() {
@@ -118,16 +117,21 @@ public class Student extends User
 			{
 				EvaluationEvent stdev = new EvaluationEvent(ev.getSubject_name(), ev.getName());
 				stdev.setGrade((float)Math.random() * 5);
+				stdsb.getExamInfo().add(stdev);
 			}
 			this.subjects.add(stdsb); // Crea una nueva instancia de materia con las caracteristicas genericas de la materia del curso (Nombre, profesor y curso) pero con la nota especifica del estudiante.
 			
 		}
 		
 	}
+	
+	public AcademicHistory getAH()
+	{
+		return this.academic_history;
+	}
 
 	public void kick() { // Expulsa al estudiante del colegio, sacandolo del curso en el que esta inscrito y finalizando su periodo academico.
-		this.academic_history.finalizeC(this.check_perf());
-		
+		this.academic_history.finalizeH(this.check_perf());
 	}
 	
 }

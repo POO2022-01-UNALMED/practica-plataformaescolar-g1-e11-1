@@ -4,47 +4,49 @@ import java.io.Serializable;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+
 
 public class Timetable implements Serializable
 {
 	private static final long serialVersionUID = -4150616955235965376L;
 	
 	public int initial_hour = 8;
-	private ArrayList<Day> dtable;
+	public LinkedHashMap<Day, ArrayList<Subject>> dtable;
 	private Course course;
 	
 	public Timetable(Course course)
 	{
 		this.course = course;
+		dtable = new LinkedHashMap<Day, ArrayList<Subject>>();
 		
-		dtable.add(Day.Monday);
-		dtable.add(Day.Tuesday);
-		dtable.add(Day.Wednesday);
-		dtable.add(Day.Thursday);
-		dtable.add(Day.Friday);
+		dtable.put(Day.Monday, new ArrayList<Subject>());
+		dtable.put(Day.Tuesday, new ArrayList<Subject>());
+		dtable.put(Day.Wednesday, new ArrayList<Subject>());
+		dtable.put(Day.Thursday, new ArrayList<Subject>());
+		dtable.put(Day.Friday, new ArrayList<Subject>());
 		
 		ArrayList<Subject> cs = this.course.getCourse_subjects();
 		
-		for(Day d : dtable) // Crear un horario al azar para cada dia del horario.
+		for(ArrayList<Subject> k : this.dtable.values()) // Crear un horario al azar para cada dia del horario.
 		{
-			ArrayList<String> day_sch = new ArrayList<String>(); // Crear un arreglo de strings nuevo.
-			while(day_sch.size() != 6) 
+			while(k.size() != 6) 
 			{
 				int rand_idx = (int) Math.floor(Math.random() * cs.size()); // Generar un numero al azar entre 0 y el numero de materias que ofrece el curso.
-				String s = cs.get(rand_idx).getSname(); // Usar dicho indice para agarrar una de las materias al azar.
-				if(Collections.frequency(day_sch, s)  < 2) // La materia no puede aparecer mas de dos veces en el horario.S
+				Subject s = cs.get(rand_idx); // Usar dicho indice para agarrar una de las materias al azar.
+				if(Collections.frequency(k, s)  < 2) // La materia no puede aparecer mas de dos veces en el horario.S
 				{
-					if(Collections.frequency(day_sch, s)  == 1) // Si ya esta una vez.
+					if(Collections.frequency(k, s)  == 1) // Si ya esta una vez.
 					{
-						int idxofprv = day_sch.indexOf(s);
-						day_sch.add(idxofprv, s); // Si la materia ya esta una vez en el horario, insertar el nombre de nuevo al lado del que ya esta.
+						int idxofprv = k.indexOf(s);
+						k.add(idxofprv, s); // Si la materia ya esta una vez en el horario, insertar el nombre de nuevo al lado del que ya esta.
 					}
 					
-					day_sch.add(s); // Si no esta, simplemente se anade.
+					else
+						k.add(s); // Si no esta, simplemente se anade.
 				}	
 			}
-			
-			d.setSubjects(day_sch); // Se sale del loop cuando ya hay 6 materias en el horario (6 materias por dia)
+			 // Se sale del loop cuando ya hay 6 materias en el horario (6 materias por dia)
 			// Y se setea el horario creado para ese dia.
 		}
 	}
@@ -58,15 +60,29 @@ public class Timetable implements Serializable
 	{
 		this.initial_hour = i;
 	}
-	
-	public int setDayTime(int idx, ArrayList<String> sbjlist)
+
+	public String toString() // Imprime el horario del curso en un formato bonito
 	{
-		Day td = this.dtable.get(idx);
-		if(sbjlist.size() == 6)
-			td.setSubjects(sbjlist);
-		else
-			return -1; // Retorna -1 si no.
+		String schedule = "          Monday              Tuesday             Wednesday           Thursday            Friday\n\n";
 		
-		return 1; // Retorna 1 si la lista tiene el tamano apropiado (6 materias por dia)
+		for(int idx = 0; idx < 6; idx++)
+		{
+			schedule += "          ";
+			for(ArrayList<Subject> ds : this.dtable.values())
+			{
+				String tname = ((ds.get(idx).getTeacher() == null) ? "NA" : ds.get(idx).getTeacher().getName());
+				schedule += tname + new String(new char[20 - tname.length()]).replace("\0", " ");
+			}
+			schedule += "\n";
+			schedule += "          ";
+			for(ArrayList<Subject> ds : this.dtable.values())
+			{
+				String sname = ds.get(idx).getSname();
+				schedule += sname + new String(new char[20 - sname.length()]).replace("\0", " ");
+			}
+			
+			schedule += "\n\n";
+		}
+		return schedule;
 	}
 }

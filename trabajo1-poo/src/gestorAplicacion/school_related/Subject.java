@@ -22,6 +22,7 @@ public class Subject implements Serializable // Subject pertenece a un estudiant
 		this.sname = sname;
 		this.assigned_teacher = teacher;
 		this.course = course;
+		taken_tests = new ArrayList<EvaluationEvent>();
 	}
 	
 	public Teacher getTeacher()
@@ -54,6 +55,17 @@ public class Subject implements Serializable // Subject pertenece a un estudiant
 		if(ev != null)
 			this.taken_tests.add(ev);
 	}
+	
+	public double calculateAvg()
+	{
+		double ttl = 0.0;
+		for(EvaluationEvent ev : this.taken_tests)
+		{
+			ttl += ev.getGrade();
+		}
+		
+		return ttl/3;
+	}
 
 	public String getSname() {
 		return this.sname;
@@ -77,6 +89,11 @@ public class Subject implements Serializable // Subject pertenece a un estudiant
 	
 	public String toString()
 	{
-		return "Nombre de la materia: " + this.sname + "Libro guia: " + this.guidebook + "Dictada por: "  + this.assigned_teacher.getName() + "\n";
+		double ttl = 0.0;
+		for(EvaluationEvent ev : this.taken_tests)
+		{
+			ttl += ev.getGrade();
+		}
+		return "Nombre de la materia: " + this.sname  + "Dictada por: "  + ((this.assigned_teacher == null)? "Desconocido" : this.assigned_teacher.getName()) + "\n" + "Nota: " + ttl/3;
 	}
 }

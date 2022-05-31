@@ -3,17 +3,22 @@ package uiMain;
 import java.io.IOException;
 import java.util.Scanner;
 
+import baseDatos.AllData;
 import baseDatos.Deserializer;
 import baseDatos.Serializer;
-
+import gestorAplicacion.school_related.Course;
+import gestorAplicacion.school_related.Day;
+import gestorAplicacion.school_related.Timetable;
 
 public class Main {
 	
-	// public static School school = new School();
 	public static Scanner sc = new Scanner(System.in);
+	public static AllData school;
 
 	public static void main(String[] args) throws IOException 
 	{
+		school = new AllData();
+		
 		Deserializer.deserializeAll();
 		
 		System.out.println("Ingresando al control maestro academico...\n");
