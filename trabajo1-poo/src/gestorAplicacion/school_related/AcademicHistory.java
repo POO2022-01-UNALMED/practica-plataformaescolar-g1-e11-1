@@ -56,4 +56,9 @@ public class AcademicHistory implements Serializable {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	
+	public ArrayList<String> getRegistry()
+	{
+		return this.registry;
+	}
 }

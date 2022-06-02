@@ -60,8 +60,8 @@ public class Student extends User
 	}
 
 	public String check_perf() { // Ver las notas del estudiante (del curso actual)
-		if(this.course == null)
-			return "El estudiante no se encuentra en ningun curso";
+		if(this.course == null && this.academic_history.getRegistry().size() == 0)
+			return "El estudiante no se encuentra en ningun curso y tampoco tiene historia academica.";
 		
 		String s = "Informacion academica para el estudiante: " + this.getName() + "\n\n";
 		s += "Curso: " + this.getCourse().getCourseName() + "\n";

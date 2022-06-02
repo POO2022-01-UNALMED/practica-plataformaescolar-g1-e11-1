@@ -662,7 +662,7 @@ public class Session
 					
 					
 					while(picks < 6) {
-						System.out.println("Seleccione la materia Nï¿½" + (picks+1) + " del horario: ");
+						System.out.println("Seleccione la materia N°" + (picks+1) + " del horario: ");
 						while(true)
 						{
 							int ttopt = Main.sc.nextInt();
