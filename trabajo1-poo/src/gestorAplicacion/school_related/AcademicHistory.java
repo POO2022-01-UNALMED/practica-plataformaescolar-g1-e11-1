@@ -14,6 +14,7 @@ public class AcademicHistory implements Serializable {
 	public AcademicHistory()
 	{
 		this.setStatus("En progreso"); // La historia academica inicialmente esta en curso, cuando la creas.
+		this.registry = new ArrayList<String>();
 	}
 	
 	public void finalizeH(String cregistry)
@@ -31,9 +32,9 @@ public class AcademicHistory implements Serializable {
 	public String dumpHistory()
 	{
 		if(this.registry.size() == 0)
-			return "Historia academica vacia\n";
+			return "Historia academica: \nHistoria academica vacia\n";
 		
-		String s = "";
+		String s = "Historia academica:\n\n";
 		for(String n : this.registry)
 			s += n + "\n";
 		

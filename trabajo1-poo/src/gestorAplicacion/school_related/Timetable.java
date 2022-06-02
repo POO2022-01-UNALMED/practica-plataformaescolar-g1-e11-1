@@ -12,7 +12,7 @@ public class Timetable implements Serializable
 	private static final long serialVersionUID = -4150616955235965376L;
 	
 	public int initial_hour = 8;
-	public LinkedHashMap<Day, ArrayList<Subject>> dtable;
+	private LinkedHashMap<Day, ArrayList<Subject>> dtable;
 	private Course course;
 	
 	public Timetable(Course course)
@@ -84,5 +84,10 @@ public class Timetable implements Serializable
 			schedule += "\n\n";
 		}
 		return schedule;
+	}
+	
+	public LinkedHashMap<Day, ArrayList<Subject>> getDaytable()
+	{
+		return this.dtable;
 	}
 }

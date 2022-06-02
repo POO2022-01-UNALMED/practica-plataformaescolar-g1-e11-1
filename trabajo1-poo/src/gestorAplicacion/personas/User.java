@@ -2,9 +2,11 @@ package gestorAplicacion.personas;
 
 import java.io.Serializable;
 
+import gestorAplicacion.school_related.InfoOperations;
 
 
-public abstract class User implements Serializable {
+
+public abstract class User implements Serializable, InfoOperations {
 	
 	private static final long serialVersionUID = -7789239239658109022L;
 	protected final String name; // Nombre de usuario

@@ -10,7 +10,7 @@ import gestorAplicacion.personas.Teacher;
 import uiMain.Main;
 
 
-public class Course implements Serializable
+public class Course implements Serializable, InfoOperations
 {
 
 	private static final long serialVersionUID = -5223735748429732043L;
@@ -37,7 +37,7 @@ public class Course implements Serializable
 		course_subjects = new ArrayList<Subject>();
 		// Anadir materias al azar al curso. Seran las materias base del curso.
 		
-		ArrayList<String> chosen_already = new ArrayList<>();
+		ArrayList<String> chosen_already = new ArrayList<>(); // Arreglo donde se guardan las materias que se van metiendo al curso (un arreglo helper que ayuda a evitar materias duplicadas en un curso)
 		while(course_subjects.size() != 8) // Escoger 7 materias al azar de la lista de materias ofrecidas por el colegio.
 		{
 			int rand_idx = (int)Math.floor(Math.random() * 9);
@@ -65,7 +65,7 @@ public class Course implements Serializable
 	
 	public String add_student(Student s)
 	{
-		if(!s.isEnrolled() && s.getAH().isActive())
+		if(!s.isEnrolled() && s.getAH().isActive()) // No puede estar inscrito ya, tampoco puede tener historia academica inactiva.
 		{
 			enrolled_students.add(s);
 			s.setCourse(this);
@@ -103,12 +103,17 @@ public class Course implements Serializable
 	}
 
 	public int getNo_of_students() {
-		return no_of_students;
+		return this.enrolled_students.size();
 	}
 
 	public ArrayList<Subject> getCourse_subjects()
 	{
 		return this.course_subjects;
+	}
+	
+	public ArrayList<Student> getCourse_students()
+	{
+		return this.enrolled_students;
 	}
 
 	public Timetable getSchedule() {
@@ -124,6 +129,7 @@ public class Course implements Serializable
 		ArrayList<Student> cps = new ArrayList<Student>(this.enrolled_students);
 		for(Student s : cps)
 		{
+			s.setCourse(null);
 			this.enrolled_students.remove(s); // Primero remover al estudiante del curso, ya que este finalizo.
 			String reg = "Registro para el curso: " + this.getCourseName() + "\n"; // registro
 			double avg_total = 0;
@@ -209,6 +215,34 @@ public class Course implements Serializable
 	
 	public String toString()
 	{
+		return "Nombre del curso: " + this.course_name + " numero de estudiantes: " + this.getNo_of_students();
+	}
+
+	public String check_perf() { // regresa las estadisticas del curso (promedio de cada materia)
+		String perf = "";
+		for(Subject csbj : this.course_subjects)
+		{
+			double avg = 0;
+			perf += "Para la materia " + csbj.getSname() + " el promedio es ";;
+			for(Student s : this.enrolled_students)
+			{
+				for(Subject ssbj : s.getSubjects()) // Sumar el promedio de cada estudiante para una materia.
+				{
+					if(ssbj.getSname() == csbj.getSname())
+					{
+						avg += ssbj.calculateAvg();
+					}
+				}
+			}
+			
+			perf += String.format("%.2f", avg/this.getNo_of_students()) + "\n";
+		}
+		
+		perf += "Para un total de " + this.getNo_of_students() + " estudiantes.";
+		return perf;
+	}
+
+	public String check_info() {
 		String r = "";
 		
 		r += "Nombre del curso: " + this.course_name + "\n";

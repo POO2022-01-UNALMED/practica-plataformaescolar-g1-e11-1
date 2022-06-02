@@ -19,7 +19,6 @@ public class Student extends User
 
 	public Student(String name, int id) {
 		super(name, id);
-		Main.school.created_students.add(this);
 		subjects = new ArrayList<Subject>();
 		
 		academic_history = new AcademicHistory();
@@ -28,7 +27,6 @@ public class Student extends User
 	
 	public Student(String name, int id, String bd, String sex, String bloodtype, String birthplace) {
 		super(name, id, bd, sex, bloodtype, birthplace);
-		Main.school.created_students.add(this);
 		subjects = new ArrayList<Subject>();
 		
 		academic_history = new AcademicHistory();
@@ -47,6 +45,12 @@ public class Student extends User
 			this.course = c;
 			this.isEnrolled = true;
 			c.add_student(this);
+		}
+		
+		else
+		{
+			this.course = c;
+			this.isEnrolled = false;
 		}
 	}
 	
@@ -77,7 +81,7 @@ public class Student extends User
 		}
 		
 		s += "Promedio de todas las materias: " + String.format("%.2f", all_subject_prom/8);
-		return s;
+		return s + "\n" + this.academic_history.dumpHistory();
 	}
 
 	public ArrayList<Subject> getSubjects() {
@@ -142,6 +146,29 @@ public class Student extends User
 
 	public void kick() { // Expulsa al estudiante del colegio, sacandolo del curso en el que esta inscrito y finalizando su periodo academico.
 		this.academic_history.finalizeH(this.check_perf());
+	}
+
+	public String check_info() {
+		String info = "";
+		info += "Nombre: " + this.getName() + "\n";
+		info += "Cedula: " + this.getIdentification() + "\n";
+		info += "Fecha de nacimiento: " + this.getBirthdate() + "\n";
+		info += "Lugar de nacimiento: " + this.getBirthplace() + "\n";
+		info += "Tipo de sangre: " + this.getBloodtype() + "\n";
+		info += "Genero: " + this.getSex() + "\n";
+		
+		info += "Curso: " + ((this.course == null) ? "no inscrito a ningun curso" : this.course.getCourseName()) + "\n";
+		if(this.course != null)
+		{
+			float avg = 0;
+			for(Subject sbj : this.subjects)
+				avg += sbj.calculateAvg();
+			
+			avg = avg/this.subjects.size();
+			info += "Promedio de materias: " + String.format("%.2f", avg);
+		}
+		
+		return info;
 	}
 	
 }

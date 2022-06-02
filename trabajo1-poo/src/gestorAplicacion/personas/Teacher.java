@@ -28,7 +28,28 @@ public class Teacher extends User
 	}
 
 	public String check_perf() { // Comprobar el desempeno del profesor.
-		return null;
+		String perf = "Los alumnos de este profesor tienen los siguientes resultados: \n";
+		if(this.assignedSubjects.size() == 0)
+			return "Este profesor no tiene materias asignadas.\n";
+		
+		for(Subject sbj : this.assignedSubjects)
+		{
+			perf += "Para la materia " + sbj.getSname() + " del curso " + sbj.getCourse().getCourseName() + "\n";
+			double avg = 0.0;
+			for(Student s : sbj.getCourse().getCourse_students()) // Para cada estudiante que este en el curso donde el profesor da la materia.
+			{
+				for(Subject stdsbj : s.getSubjects()) // Calcular el promedio de dicha materia para cada estudiante del curso.
+				{
+					if(stdsbj.getTeacher() == this)
+						avg += stdsbj.calculateAvg(); // Agrego el promedio de cada estudiante de dicha materia a avg.
+				}
+			}
+			
+			avg = avg/sbj.getCourse().getCourse_students().size(); // Dividir el total entre el numero de estudiantes del curso.
+			perf += "el promedio es " + String.format("%.2f", avg) + " para un total de " + sbj.getCourse().getCourse_students().size() + " estudiantes.\n"; 
+		}
+		
+		return perf;
 	}
 
 	public ArrayList<Course> getAssignedCourses() {
@@ -98,6 +119,12 @@ public class Teacher extends User
 			if(sb.getCourse().getCourseName() == c.getCourseName())
 				this.assignedSubjects.remove(sb);
 		}
+	}
+
+	@Override
+	public String check_info() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

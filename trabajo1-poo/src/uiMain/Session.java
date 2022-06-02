@@ -2,10 +2,14 @@ package uiMain;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Set;
+
 import gestorAplicacion.personas.Student;
 import gestorAplicacion.personas.Teacher;
 import gestorAplicacion.personas.User;
 import gestorAplicacion.school_related.Course;
+import gestorAplicacion.school_related.Day;
 import gestorAplicacion.school_related.Subject;
 
 public class Session
@@ -14,14 +18,13 @@ public class Session
 	public static void studentManagement() throws IOException
 	{
 		System.out.println("Usted quiere...\n");
-		
-		System.out.println("1. Inscribir nuevo estudiante");
-		System.out.println("2. Consultar estadisticas de estudiante");
-		System.out.println("3. Expulsar estudiante");
-		System.out.println("4. Salir al menu\n");	
 			
 		while(true)
 		{
+			System.out.println("1. Inscribir estudiante a un curso");
+			System.out.println("2. Consultar estadisticas de estudiante");
+			System.out.println("3. Expulsar estudiante");
+			System.out.println("4. Salir al menu\n");	
 			System.out.print("Ingrese una opcion: ");
 			
 			int opt = Main.sc.nextInt();
@@ -30,74 +33,167 @@ public class Session
 			switch(opt)
 			{
 				case 1:
-					System.out.print("Ingrese el nombre del estudiante (25 caracteres maximo): ");
-					String tn = Main.sc.nextLine();
+					int newstopt;
+					System.out.println("1. Inscribir un estudiante nuevo.\n2. Inscribir un estudiante existente.");
 					
-					System.out.print("\n");
+					newstopt = Main.sc.nextInt();
+					Main.sc.nextLine();
 					
-					User existent = null;
-					int ti = 0;
-					System.out.print("Ingrese la identificacion del estudiante (10 numeros maximo): ");
-					
-					while(true)
+					if(newstopt == 1) // Crear un nuevo estudiante e inscribirlo a un curso.
 					{
-						ti = Main.sc.nextInt(); // Recibe la cedula.
-						Main.sc.nextLine(); // Despues de cada nextInt hay que colocar un nextLine para agarrar el "\n" que no se lleva.
+					
+						System.out.print("Ingrese el nombre del estudiante (25 caracteres maximo): ");
+						String tn = Main.sc.nextLine();
 						
-						System.out.println();
+						System.out.print("\n");
 						
-						if(Student.getCreated().size() > 0)
-						{
-							existent = Student.find(ti); // Buscar la cedula del estudiante en los estudiantes inscritos.
-						}
-						if(existent != null)
-							System.out.print("Ya existe un estudiante con la identificacion ingresada. Ingrese una nueva id:");
-						else
-							break;			
-					}//Para  el input de usuario se asume que el usuario ingresara valores razonables. Identificaciones numericas y nombres alfabeticos. 
-					
-					User ns = new Student(tn, ti); // Convertir el nombre en string y la cedula a string y luego a int.
-					
-					System.out.print("Ingrese el tipo de sangre: ");
-					String bt = Main.sc.nextLine();
-					System.out.print("Ingrese el lugar de nacimiento: ");
-					String bp = Main.sc.nextLine();
-					System.out.print("Ingrese el dia de nacimiento (DD/MM/AA): ");
-					String bd = Main.sc.nextLine();
-					System.out.print("Ingrese el genero: ");
-					String sex = Main.sc.nextLine();
-					
-					ns.setAll(bd, bt, bp, sex);
-					
-					System.out.println("Ahora seleccione el curso: ");
-					int idx_c = 1;
-					for(Course c : Course.getCreated()) // Muestra al usuario todos los cursos existentes.
-					{
-						System.out.print(idx_c++ + ". ");
-						System.out.println(c);
-					}
-					
-					System.out.println("\n");
-					System.out.println("Su opcion (numero del curso): ");
-					int c_opt;
-					
-					if(Course.getCreated().size() > 0)
-					{
+						User existent = null;
+						int ti = 0;
+						System.out.print("Ingrese la identificacion del estudiante (10 numeros maximo): ");
+						
 						while(true)
 						{
-						    c_opt = Main.sc.nextInt();// Lee la opcion del usuario, esta funcion lee un byte, por lo que al leer 1 leera realmente 31.
-						    Main.sc.nextLine();
-							if(c_opt > 0 && c_opt <= Course.getCreated().size())
-								break;
+							ti = Main.sc.nextInt(); // Recibe la cedula.
+							Main.sc.nextLine(); // Despues de cada nextInt hay que colocar un nextLine para agarrar el "\n" que no se lleva.
+							
+							System.out.println();
+							
+							if(Student.getCreated().size() > 0)
+							{
+								existent = Student.find(ti); // Buscar la cedula del estudiante en los estudiantes inscritos.
+							}
+							if(existent != null)
+								System.out.print("Ya existe un estudiante con la identificacion ingresada. Ingrese una nueva id:");
 							else
-								System.out.println("Numero invalido, ingrese una nueva opcion.");
+								break;			
+						}//Para  el input de usuario se asume que el usuario ingresara valores razonables. Identificaciones numericas y nombres alfabeticos. 
+						
+						User ns = new Student(tn, ti); // Convertir el nombre en string y la cedula a string y luego a int.
+						
+						System.out.print("Ingrese el tipo de sangre: ");
+						String bt = Main.sc.nextLine();
+						System.out.print("Ingrese el lugar de nacimiento: ");
+						String bp = Main.sc.nextLine();
+						System.out.print("Ingrese el dia de nacimiento (DD/MM/AA): ");
+						String bd = Main.sc.nextLine();
+						System.out.print("Ingrese el genero: ");
+						String sex = Main.sc.nextLine();
+						
+						ns.setAll(bd, bt, bp, sex);
+						
+						System.out.println("Ahora seleccione el curso: ");
+						int idx_c = 1;
+						for(Course c : Course.getCreated()) // Muestra al usuario todos los cursos existentes.
+						{
+							System.out.print(idx_c++ + ". ");
+							System.out.println(c);
 						}
 						
-						Course c = Course.getCreated().get(c_opt-1); // El curso que el usuario solicito.
-						c.add_student((Student) ns);
-					}
+						System.out.println("\n");
+						System.out.println("Su opcion (numero del curso): ");
+						int c_opt;
 						
-					System.out.println("Inscripcion de estudiante finalizada!\n");
+						if(Course.getCreated().size() > 0)
+						{
+							while(true)
+							{
+							    c_opt = Main.sc.nextInt();// Lee la opcion del usuario, esta funcion lee un byte, por lo que al leer 1 leera realmente 31.
+							    Main.sc.nextLine();
+								if(c_opt > 0 && c_opt <= Course.getCreated().size())
+									break;
+								else
+									System.out.println("Numero invalido, ingrese una nueva opcion.");
+							}
+							
+							Course c = Course.getCreated().get(c_opt-1); // El curso que el usuario solicito.
+							c.add_student((Student) ns);
+						}
+							
+						System.out.println("Inscripcion de nuevo estudiante finalizada!\n");
+					
+					}
+					
+					else if(newstopt == 2) // Buscar en los estudiantes existentes.
+					{
+						System.out.println("Ingrese nombres, segundos nombres o apellidos (no es necesario que este completo, se buscaran los match mas cercanos): "); // No es necesario el nombre completo.
+						
+						String name = Main.sc.nextLine();
+						
+						ArrayList<Student> found_students = new ArrayList<>();
+						for(Student e : Student.getCreated()) // Encuentra todos los estudiantes que dentro de su nombre contengan la string de busqueda. (Filtro)
+						{
+							if(e.getName().contains(name))
+								found_students.add(e);	// Si encuentra un match, lo anade a std, que luego se imprimira al usuario.
+						}
+						
+						int found_idx = 1;
+						for(Student e : found_students)
+						{
+							System.out.print(found_idx++ + ". ");
+							System.out.println(e.check_info() +"\n");
+						}
+						
+						System.out.println("Seleccione el estudiante que desea consultar: ");
+						
+						if(found_students.size() > 0) // Si se encontraron estudiantes con ese match
+						{
+							int sopt = 0;
+							while(true)
+							{
+								sopt = Main.sc.nextInt();
+								Main.sc.nextLine();
+								
+								if(sopt > 0 && sopt <= found_students.size())
+									break;
+								else
+									System.out.println("Opcion invalida, por favor ingrese una opcion valida:");
+							}
+							
+							User es = found_students.get(sopt-1);
+							
+							if(((Student) es).getAH().isActive())
+							{
+							
+								System.out.println("Ahora seleccione el curso: ");
+								int idx_c = 1;
+								for(Course c : Course.getCreated()) // Muestra al usuario todos los cursos existentes.
+								{
+									System.out.print(idx_c++ + ". ");
+									System.out.println(c);
+								}
+								
+								System.out.println("\n");
+								System.out.println("Su opcion (numero del curso): ");
+								int c_opt;
+								
+								if(Course.getCreated().size() > 0)
+								{
+									while(true)
+									{
+									    c_opt = Main.sc.nextInt();// Lee la opcion del usuario, esta funcion lee un byte, por lo que al leer 1 leera realmente 31.
+									    Main.sc.nextLine();
+										if(c_opt > 0 && c_opt <= Course.getCreated().size())
+											break;
+										else
+											System.out.println("Numero invalido, ingrese una nueva opcion.");
+									}
+									
+									Course c = Course.getCreated().get(c_opt-1); // El curso que el usuario solicito.
+									c.add_student((Student) es);
+								}
+								
+								System.out.println("Inscripcion de estudiante finalizada!\n");
+							
+							}
+							
+							else
+								System.out.println("El estudiante no se encuentra activo dentro del registro.");
+						}
+					}
+					
+					else
+						System.out.println("Opcion invalida.\n");
+					
 					break;
 				case 2:
 					System.out.println("Ingrese nombres, segundos nombres o apellidos (no es necesario que este completo, se buscaran los match mas cercanos): "); // No es necesario el nombre completo.
@@ -204,7 +300,8 @@ public class Session
 		System.out.println("1. Remover profesor (de un curso).");
 		System.out.println("2. Despedir profesor.");
 		System.out.println("3. Asignar profesor (a un curso y a una materia o materias del curso)");
-		System.out.println("4. Salir al menu\n");
+		System.out.println("4. Estadisticas de profesor. ");
+		System.out.println("5. Salir al menu\n");
 		
 		while(true)
 		{
@@ -283,6 +380,7 @@ public class Session
 							
 							teacher_courses.get(copt-1).rmvTeacher((Teacher) e); // Llama a la funcion que quita al profesor del curso especifico.
 							((Teacher) e).rmvSubjects(teacher_courses.get(copt-1)); // Quita las asignaturas que dictaba el profesor en el curso de su arreglo de asignaturas asignadas.
+							((Teacher)e).getAssignedCourses().remove(teacher_courses.get(copt-1));
 						}
 						
 						else
@@ -408,6 +506,8 @@ public class Session
 								System.out.println(sbj);
 							}
 							
+							
+							System.out.println("Seleccione la materia a la que desea asignarlo: \n\n");
 							int s_opt= 0;
 							while(true) // No hay necesidad de rodear este con un if porque el arreglo de materias de un curso nunca esta vacio
 							{
@@ -419,9 +519,15 @@ public class Session
 									System.out.println("Numero invalido, ingrese una nueva opcion.");
 							}
 							
-							ctoa.add_teacher((Teacher) foundt);
-							((Teacher) foundt).getAssignedSubjects().add(course_subjects.get(s_opt-1));
-							ctoa.updateSubjects(course_subjects.get(s_opt-1).getSname(), (Teacher) foundt);
+							if(course_subjects.get(s_opt-1).getTeacher() == foundt) // Si la materia ya la dicta este profesor.
+								System.out.println("El profesor ya se encuentra asignado a esta materia!\n");
+							
+							else
+							{
+								ctoa.add_teacher((Teacher) foundt); // Anadir el profesor al curso
+								((Teacher) foundt).getAssignedSubjects().add(course_subjects.get(s_opt-1));
+								ctoa.updateSubjects(course_subjects.get(s_opt-1).getSname(), (Teacher) foundt);
+							}
 						}
 					}
 					
@@ -429,6 +535,46 @@ public class Session
 						System.out.println("No se encontraron profesores con ese nombre/apellido.");
 					break;
 				case 4:
+					System.out.print("Ingrese nombres, segundos nombres o apellidos (no es necesario que este completo, se buscaran los match mas cercanos): ");
+					
+					String infname = Main.sc.nextLine();
+					
+					ArrayList<Teacher> found_teacher_inf = new ArrayList<>();
+					for(Teacher e : Teacher.getCreated()) // Encuentra todos los profesores que dentro de su nombre contengan la string de busqueda. (Filtro)
+					{
+						if(e.getName().contains(infname))
+							found_teacher_inf.add(e);	// Si encuentra un match, lo anade a std, que luego se imprimira al usuario.
+					}
+					
+					int found_tidx = 1;
+					for(Teacher e : found_teacher_inf)
+					{
+						System.out.print(found_tidx++ + ". ");
+						System.out.println(e +"\n");
+					}
+					
+					System.out.println("Seleccione el profesor cuyas estadisticas quiere consultar: ");
+					
+					if(found_teacher_inf.size() > 0) // Si se encontraron profesores con ese match
+					{
+						int topt = 0;
+						while(true)
+						{
+							topt = Main.sc.nextInt();
+							Main.sc.nextLine();
+							
+							if(topt > 0 && topt <= found_teacher_inf.size())
+								break;
+							else
+								System.out.println("Opcion invalida, por favor ingrese una opcion valida:");
+						}
+						
+						User e = found_teacher_inf.get(topt-1); // Seleccionar el profesor elegido por el admin.
+						System.out.println(((Teacher)e).check_perf()); // Mostrar el rendimiento del profesor.
+					}
+					
+					break;
+				case 5:
 					return;
 				default:
 					System.out.println("Opcion no reconocida, por favor ingrese otra opcion.\n");
@@ -443,7 +589,8 @@ public class Session
 		System.out.println("1. Ver estadisticas de un curso");
 		System.out.println("2. Modificar horario de un curso");
 		System.out.println("3. Consultar horario de un curso.");
-		System.out.println("4. Salir al menu\n");
+		System.out.println("4. Finalizar curso.");
+		System.out.println("5. Salir al menu\n");
 		
 		while(true)
 		{
@@ -455,12 +602,175 @@ public class Session
 			switch(opt)
 			{
 				case 1:
+					int id = 1;
+					for(Course c: Main.school.created_courses) // Imprimir los cursos.
+					{
+						System.out.print(id++ + ". ");
+						System.out.println(c.getCourseName());
+					}
+					
+					System.out.println("Seleccione el curso que quiere consultar (ingrese el numero): ");
+					int curopt = 0;
+					
+					while(true) 
+					{
+						curopt = Main.sc.nextInt();
+						Main.sc.nextLine();
+						
+						if(curopt > 0 && curopt <= Main.school.created_courses.size())
+							break;
+						else
+							System.out.print("Opcion invalida ingrese de nuevo una opcion:");
+					}
+					
+					System.out.println(Main.school.created_courses.get(curopt-1).check_perf()); // Imprimir la informacion sobre un curso.
 					break;
 				case 2:
+					
+					System.out.println("Ahora modificando el horario de un curso...");
+					
+					int idc = 1;
+					for(Course c: Main.school.created_courses) // Imprimir los cursos.
+					{
+						System.out.print(idc++ + ". ");
+						System.out.println(c.getCourseName());
+					}
+					
+					System.out.println("Seleccione el curso que quiere consultar (ingrese el numero): ");
+					int cur_opt = 0;
+					
+					while(true) 
+					{
+						cur_opt = Main.sc.nextInt();
+						Main.sc.nextLine();
+						
+						if(cur_opt > 0 && cur_opt <= Main.school.created_courses.size())
+							break;
+						else
+							System.out.print("Opcion invalida ingrese de nuevo una opcion:");
+					}
+					
+					Course c = Main.school.created_courses.get(cur_opt-1); // Curso elegido para modificar su horario.
+					ArrayList<Subject> cs = c.getCourse_subjects(); // Referencia al arreglo de materias del curso.
+					
+					for(Subject sb : cs) // Imprimir las materias del curso.
+					{
+						System.out.println((cs.indexOf(sb) + 1) + ". ");
+						System.out.println(sb);
+					}
+					
+					ArrayList<Subject> new_day = new ArrayList<Subject>(); // Nuevo horario.
+					int picks = 0;
+					
+					
+					while(picks < 6) {
+						System.out.println("Seleccione la materia N°" + (picks+1) + " del horario: ");
+						while(true)
+						{
+							int ttopt = Main.sc.nextInt();
+							Main.sc.nextLine();
+							
+							if(ttopt > 0 && ttopt < cs.size())
+							{
+								Subject s = cs.get(ttopt-1);
+								if(Collections.frequency(new_day, s)  < 2) // La materia no puede aparecer mas de dos veces en el horario.S
+								{
+									if(Collections.frequency(new_day, s)  == 1) // Si ya esta una vez.
+									{
+										int idxofprv = new_day.indexOf(s);
+										new_day.add(idxofprv, s); // Si la materia ya esta una vez en el horario, insertar el nombre de nuevo al lado del que ya esta.
+									}
+									
+									else
+										new_day.add(s); // Si no esta, simplemente se anade.
+									
+									break;
+								}
+								
+								else
+									System.out.print("La materia ya se encuentra 2 veces en la lista, ingrese de nuevo un numero: ");
+								
+							}
+							
+							else
+								System.out.println("Opcion invalida, ingrese de nuevo el numero de la materia: ");
+						}
+						
+						picks++;
+					}
+					
+					System.out.println("Ahora seleccione el dia para el que quiere modificar el horario (1 lunes, 5 viernes): ");
+					Set<Day> days = c.getSchedule().getDaytable().keySet(); // Agarrar el conjunto de keys del horario.
+					ArrayList<Day> dlist = new ArrayList<Day>();
+					dlist.addAll(days);
+					
+					while(true)
+					{
+						int dayopt = Main.sc.nextInt();
+						Main.sc.nextLine();
+						
+						if(dayopt > 0 && dayopt <= 5)
+						{
+							c.getSchedule().getDaytable().put(dlist.get(dayopt-1), new_day);
+							break;
+						}
+						
+						else
+							System.out.println("Opcion invalida, vuelva a seleccionar el dia");
+						
+					}
+					
+					System.out.println("Modificacion de horario finalizada!");
 					break;
 				case 3:
+					int idch = 1;
+					for(Course cc: Main.school.created_courses) // Imprimir los cursos.
+					{
+						System.out.print(idch++ + ". ");
+						System.out.println(cc.getCourseName());
+					}
+					
+					System.out.println("Seleccione el curso que quiere consultar (ingrese el numero): ");
+					int curopt1 = 0;
+					
+					while(true) 
+					{
+						curopt1 = Main.sc.nextInt();
+						Main.sc.nextLine();
+						
+						if(curopt1 > 0 && curopt1 <= Main.school.created_courses.size())
+							break;
+						else
+							System.out.print("Opcion invalida ingrese de nuevo una opcion:");
+					}
+					
+					System.out.println(Main.school.created_courses.get(curopt1-1).getSchedule()); // Imprimir el horario del curso seleccionado.
 					break;
 				case 4:
+					int idf = 1;
+					for(Course cc: Main.school.created_courses) // Imprimir los cursos.
+					{
+						System.out.print(idf++ + ". ");
+						System.out.println(cc.getCourseName());
+					}
+					
+					System.out.println("Seleccione el curso que quiere consultar (ingrese el numero): ");
+					int curopt2 = 0;
+					
+					while(true) 
+					{
+						curopt2 = Main.sc.nextInt();
+						Main.sc.nextLine();
+						
+						if(curopt2 > 0 && curopt2 <= Main.school.created_courses.size())
+							break;
+						else
+							System.out.print("Opcion invalida ingrese de nuevo una opcion:");
+					}
+					
+					Main.school.created_courses.get(curopt2-1).finalizeC(); // Imprimir el horario del curso seleccionado.
+					break;
+				case 5:
 					return;
 				default:
 					System.out.println("Opcion no reconocida, por favor ingrese otra opcion.\n");
