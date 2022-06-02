@@ -64,7 +64,7 @@ public class Student extends User
 			return "El estudiante no se encuentra en ningun curso y tampoco tiene historia academica.";
 		
 		String s = "Informacion academica para el estudiante: " + this.getName() + "\n\n";
-		s += "Curso: " + this.getCourse().getCourseName() + "\n";
+		s += "Curso: " + ((this.getCourse() == null) ? "Sin curso inscrito" : this.getCourse().getCourseName()) + "\n";
 		double all_subject_prom = 0.0;
 		for(Subject sb : this.subjects)
 		{

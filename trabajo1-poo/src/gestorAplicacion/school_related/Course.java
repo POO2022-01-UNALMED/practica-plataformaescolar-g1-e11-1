@@ -54,7 +54,7 @@ public class Course implements Serializable, InfoOperations
 			int nev;
 			for(nev = 1; nev < 4; nev++)
 			{
-				EvaluationEvent ev = new EvaluationEvent(sb.getSname(), "Evaluacion N°" + nev);
+				EvaluationEvent ev = new EvaluationEvent(sb.getSname(), "Evaluacion Nï¿½" + nev);
 				sb.getExamInfo().add(ev);
 			}
 		}
@@ -133,14 +133,16 @@ public class Course implements Serializable, InfoOperations
 			this.enrolled_students.remove(s); // Primero remover al estudiante del curso, ya que este finalizo.
 			String reg = "Registro para el curso: " + this.getCourseName() + "\n"; // registro
 			double avg_total = 0;
-			for(Subject sb : s.getSubjects()) // Anade el promedio de cada materia
+			ArrayList<Subject> cpss = new ArrayList<Subject>(s.getSubjects());
+			for(Subject sb : cpss) // Anade el promedio de cada materia
 			{
 				avg_total = sb.calculateAvg();
 				reg += sb.toString() + "\n";
+				s.getSubjects().remove(sb);
 			}
 			
 			avg_total = avg_total/this.course_subjects.size(); // Luego calcula el promedio de todas las materias.
-			reg += "Promedio: " + avg_total;
+			reg += "Promedio: " + String.format("%.2f", avg_total);
 			
 			s.getAH().add_registry(reg); // Anadir el registro del curso a la historia academica del estudiante.
 		}

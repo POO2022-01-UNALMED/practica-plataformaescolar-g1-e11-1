@@ -91,13 +91,13 @@ public class Main {
 		System.out.println("Ingresando al control maestro academico...\n");
 		System.out.println("Usted desea administrar...");
 		
-		System.out.println("1. Cursos");
-		System.out.println("2. Profesores");
-		System.out.println("3. Estudiantes");
-		System.out.println("4. Salir y guardar cambios\n");
-				
+		
 		while(true)
 		{
+			System.out.println("1. Cursos");
+			System.out.println("2. Profesores");
+			System.out.println("3. Estudiantes");
+			System.out.println("4. Salir y guardar cambios\n");
 			
 			System.out.print("Ingrese su opcion: ");
 			int opt = sc.nextInt();

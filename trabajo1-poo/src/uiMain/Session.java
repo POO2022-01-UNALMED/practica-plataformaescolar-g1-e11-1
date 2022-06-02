@@ -411,7 +411,7 @@ public class Session
 						System.out.println(e +"\n");
 					}
 					
-					System.out.println("Seleccione el profesor a remover: ");
+					System.out.println("Seleccione el profesor a expulsar: ");
 					
 					if(matches.size() > 0) // Si se encontraron profesores con ese match
 					{
@@ -662,7 +662,7 @@ public class Session
 					
 					
 					while(picks < 6) {
-						System.out.println("Seleccione la materia N°" + (picks+1) + " del horario: ");
+						System.out.println("Seleccione la materia Nï¿½" + (picks+1) + " del horario: ");
 						while(true)
 						{
 							int ttopt = Main.sc.nextInt();
