@@ -296,15 +296,14 @@ public class Session
 	public static void teacherManagement() throws IOException
 	{
 		System.out.println("Usted quiere...\n");
-		
-		System.out.println("1. Remover profesor (de un curso).");
-		System.out.println("2. Despedir profesor.");
-		System.out.println("3. Asignar profesor (a un curso y a una materia o materias del curso)");
-		System.out.println("4. Estadisticas de profesor. ");
-		System.out.println("5. Salir al menu\n");
-		
+			
 		while(true)
 		{
+			System.out.println("1. Remover profesor (de un curso).");
+			System.out.println("2. Despedir profesor.");
+			System.out.println("3. Asignar profesor (a un curso y a una materia o materias del curso)");
+			System.out.println("4. Estadisticas de profesor. ");
+			System.out.println("5. Salir al menu\n");
 			System.out.print("Ingrese una opcion: ");
 			
 			int opt = Main.sc.nextInt();
@@ -586,14 +585,13 @@ public class Session
 	public static void courseManagement() throws IOException {
 		System.out.println("Seleccione su accion... \n");
 
-		System.out.println("1. Ver estadisticas de un curso");
-		System.out.println("2. Modificar horario de un curso");
-		System.out.println("3. Consultar horario de un curso.");
-		System.out.println("4. Finalizar curso.");
-		System.out.println("5. Salir al menu\n");
-		
 		while(true)
 		{
+			System.out.println("1. Ver estadisticas de un curso");
+			System.out.println("2. Modificar horario de un curso");
+			System.out.println("3. Consultar horario de un curso.");
+			System.out.println("4. Finalizar curso.");
+			System.out.println("5. Salir al menu\n");
 			System.out.print("Ingrese una opcion: ");
 			
 			int opt = Main.sc.nextInt();
@@ -636,7 +634,7 @@ public class Session
 						System.out.println(c.getCourseName());
 					}
 					
-					System.out.println("Seleccione el curso que quiere consultar (ingrese el numero): ");
+					System.out.println("Seleccione el curso cuyo horario desea modificar (ingrese el numero): ");
 					int cur_opt = 0;
 					
 					while(true) 
@@ -664,13 +662,13 @@ public class Session
 					
 					
 					while(picks < 6) {
-						System.out.println("Seleccione la materia N°" + (picks+1) + " del horario: ");
+						System.out.println("Seleccione la materia Nï¿½" + (picks+1) + " del horario: ");
 						while(true)
 						{
 							int ttopt = Main.sc.nextInt();
 							Main.sc.nextLine();
 							
-							if(ttopt > 0 && ttopt < cs.size())
+							if(ttopt > 0 && ttopt <= cs.size())
 							{
 								Subject s = cs.get(ttopt-1);
 								if(Collections.frequency(new_day, s)  < 2) // La materia no puede aparecer mas de dos veces en el horario.S
@@ -730,7 +728,7 @@ public class Session
 						System.out.println(cc.getCourseName());
 					}
 					
-					System.out.println("Seleccione el curso que quiere consultar (ingrese el numero): ");
+					System.out.println("Seleccione el curso cuyo horario desea consultar (ingrese el numero): ");
 					int curopt1 = 0;
 					
 					while(true) 
@@ -754,7 +752,7 @@ public class Session
 						System.out.println(cc.getCourseName());
 					}
 					
-					System.out.println("Seleccione el curso que quiere consultar (ingrese el numero): ");
+					System.out.println("Seleccione el curso que quiere finalizar (ingrese el numero): ");
 					int curopt2 = 0;
 					
 					while(true) 
@@ -768,7 +766,7 @@ public class Session
 							System.out.print("Opcion invalida ingrese de nuevo una opcion:");
 					}
 					
-					Main.school.created_courses.get(curopt2-1).finalizeC(); // Imprimir el horario del curso seleccionado.
+					Main.school.created_courses.get(curopt2-1).finalizeC(); // Finalizar el horario seleccionado.
 					break;
 				case 5:
 					return;
