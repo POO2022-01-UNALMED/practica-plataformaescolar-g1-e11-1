@@ -1,10 +1,18 @@
 package gestorAplicacion.school_related;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 
 import gestorAplicacion.personas.Student;
 import gestorAplicacion.personas.Teacher;
+
+/*
+ * Creada por Javier Silva
+ * 	Los cursos tienen materias ofrecidas y son estas las que se inscriben a los estudiantes que entran al curso.
+ * 	los estudiantes tienen instancias propias de materias que se crean utilizando el nombre de la materia y la referencia del profesor
+ * 	que la dicta en el curso.
+ */
 
 public class Subject implements Serializable // Subject pertenece a un estudiante que pertenece a un curso.
 {

@@ -2,6 +2,13 @@ package gestorAplicacion.school_related;
 
 import java.io.Serializable;
 
+/*
+ * Una evaluacion con su nota individual.
+ * Cada materia tiene 3 evaluaciones, las notas son, por simplicidad, aleatorias para cada asignatura para 
+ * cada estudiante. Se usan para calcular el rendimiento de un curso, profesor o estudiante.
+ * 
+ */
+
 public class EvaluationEvent implements Serializable {
 	
 	private static final long serialVersionUID = 7774322636999465955L;

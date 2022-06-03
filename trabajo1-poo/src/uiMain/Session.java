@@ -21,8 +21,10 @@ public class Session
 			
 		while(true)
 		{
-			System.out.println("1. Inscribir estudiante a un curso");
-			System.out.println("2. Consultar estadisticas de estudiante");
+			System.out.println("Opciones relevantes:\n");
+			System.out.println("1. Inscribir estudiante a un curso"); // Funcionalidad
+			System.out.println("2. Consultar estadisticas de estudiante\n"); // Funcionalidad
+			System.out.println("Opciones alternativas:\n");
 			System.out.println("3. Expulsar estudiante");
 			System.out.println("4. Salir al menu\n");	
 			System.out.print("Ingrese una opcion: ");
@@ -97,7 +99,7 @@ public class Session
 						{
 							while(true)
 							{
-							    c_opt = Main.sc.nextInt();// Lee la opcion del usuario, esta funcion lee un byte, por lo que al leer 1 leera realmente 31.
+							    c_opt = Main.sc.nextInt();// 
 							    Main.sc.nextLine();
 								if(c_opt > 0 && c_opt <= Course.getCreated().size())
 									break;
@@ -133,7 +135,7 @@ public class Session
 							System.out.println(e.check_info() +"\n");
 						}
 						
-						System.out.println("Seleccione el estudiante que desea consultar: ");
+						System.out.println("Seleccione el estudiante que desea inscribir: ");
 						
 						if(found_students.size() > 0) // Si se encontraron estudiantes con ese match
 						{
@@ -179,7 +181,7 @@ public class Session
 									}
 									
 									Course c = Course.getCreated().get(c_opt-1); // El curso que el usuario solicito.
-									c.add_student((Student) es);
+									System.out.println(c.add_student((Student) es));
 								}
 								
 								System.out.println("Inscripcion de estudiante finalizada!\n");
@@ -299,9 +301,12 @@ public class Session
 			
 		while(true)
 		{
-			System.out.println("1. Remover profesor (de un curso).");
-			System.out.println("2. Despedir profesor.");
-			System.out.println("3. Asignar profesor (a un curso y a una materia o materias del curso)");
+			
+			System.out.println("Opciones relevantes:\n");
+			System.out.println("1. Remover profesor (de un curso)."); // Funcionaldidad
+			System.out.println("2. Asignar profesor (a un curso y a una materia o materias del curso)\n"); // Funcionalidad
+			System.out.println("Opciones alternativas:\n");
+			System.out.println("3. Despedir profesor.");
 			System.out.println("4. Estadisticas de profesor. ");
 			System.out.println("5. Salir al menu\n");
 			System.out.print("Ingrese una opcion: ");
@@ -389,7 +394,7 @@ public class Session
 					else
 						System.out.println("No se encontraron profesores con ese nombre/apellido.\n");
 					break;
-				case 2:
+				case 3:
 					System.out.println("Usted va a expulsar un profesor de la escuela, esto dejara a todas las materias que");
 					System.out.println("dicta sin un profesor asignado\n");
 					
@@ -434,7 +439,7 @@ public class Session
 					else
 						System.out.println("No se encontraron profesores con ese nombre/apellido.");
 					break;
-				case 3:
+				case 2:
 					System.out.println("Asignar profesor a una materia (si ya hay un profesor en esa materia, se reemplazara por el nuevo profesor): ");
 					System.out.println("Ingrese nombres, segundos nombres o apellidos (no es necesario que este completo, se buscaran los match mas cercanos):");
 					
@@ -587,8 +592,11 @@ public class Session
 
 		while(true)
 		{
+			
+			System.out.println("Opciones relevantes:\n");
 			System.out.println("1. Ver estadisticas de un curso");
 			System.out.println("2. Modificar horario de un curso");
+			System.out.println("Opciones  alternativas:\n");
 			System.out.println("3. Consultar horario de un curso.");
 			System.out.println("4. Finalizar curso.");
 			System.out.println("5. Salir al menu\n");
@@ -662,7 +670,7 @@ public class Session
 					
 					
 					while(picks < 6) {
-						System.out.println("Seleccione la materia Nï¿½" + (picks+1) + " del horario: ");
+						System.out.println("Seleccione la materia N°" + (picks+1) + " del horario: ");
 						while(true)
 						{
 							int ttopt = Main.sc.nextInt();

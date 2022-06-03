@@ -3,6 +3,12 @@ package gestorAplicacion.school_related;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/*
+ * Historia academica de un estudiante. Cuando un estudiante finaliza un curso
+ *  se guarda un registro de como quedo el estudiante en dicho curso
+ *  dentro de su historia academica. Esta se imprime cuando se busca la informacion de un estudiante.
+ */
+
 public class AcademicHistory implements Serializable {
 
 	private static final long serialVersionUID = -2798526716793187348L;

@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 import gestorAplicacion.school_related.InfoOperations;
 
-
+/*
+ * Es la clase de la que heredan Teacher y Student. Contiene los atributos basicos como el nombre y la id.
+ * 
+ */
 
 public abstract class User implements Serializable, InfoOperations {
 	

@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 
+/*
+ * 
+ * Este es el horario de un curso.
+ * Se puede modificar a gusto del superusuario cambiado materias dictadas en cierto dia de las semana (siempre y cuando sean ofrecidas por el curso)
+ * 
+ * 
+ */
 
 public class Timetable implements Serializable
 {

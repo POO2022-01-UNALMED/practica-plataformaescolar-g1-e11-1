@@ -1,6 +1,7 @@
 package gestorAplicacion.school_related;
 
 import java.io.Serializable;
+
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +10,11 @@ import gestorAplicacion.personas.Student;
 import gestorAplicacion.personas.Teacher;
 import uiMain.Main;
 
+
+/*	Clase curso.
+ *  En esta clase almacena estudiantes y profesores de la escuela un curso es una entidad escolar
+ *  que tiene sus propias materias, estudiantes, examenes y profesores asignados. Los profesores no estan restringidos a dictar en un solo curso.
+ */ 
 
 public class Course implements Serializable, InfoOperations
 {
@@ -54,7 +60,7 @@ public class Course implements Serializable, InfoOperations
 			int nev;
 			for(nev = 1; nev < 4; nev++)
 			{
-				EvaluationEvent ev = new EvaluationEvent(sb.getSname(), "Evaluacion Nï¿½" + nev);
+				EvaluationEvent ev = new EvaluationEvent(sb.getSname(), "Evaluacion N°" + nev);
 				sb.getExamInfo().add(ev);
 			}
 		}

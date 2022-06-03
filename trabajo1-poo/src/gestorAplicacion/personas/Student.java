@@ -44,7 +44,6 @@ public class Student extends User
 		{
 			this.course = c;
 			this.isEnrolled = true;
-			c.add_student(this);
 		}
 		
 		else
@@ -61,7 +60,7 @@ public class Student extends User
 
 	public String check_perf() { // Ver las notas del estudiante (del curso actual)
 		if(this.course == null && this.academic_history.getRegistry().size() == 0)
-			return "El estudiante no se encuentra en ningun curso y tampoco tiene historia academica.";
+			return "El estudiante no se encuentra en ningun curso y tampoco tiene historia academica.\n";
 		
 		String s = "Informacion academica para el estudiante: " + this.getName() + "\n\n";
 		s += "Curso: " + ((this.getCourse() == null) ? "Sin curso inscrito" : this.getCourse().getCourseName()) + "\n";
@@ -80,8 +79,8 @@ public class Student extends User
 			all_subject_prom += tg/3;
 		}
 		
-		s += "Promedio de todas las materias: " + String.format("%.2f", all_subject_prom/8);
-		return s + "\n" + this.academic_history.dumpHistory();
+		s += "Promedio de todas las materias: " + ((this.getCourse() == null) ?  "NA" : String.format("%.2f", all_subject_prom/8));
+		return s + "\n" + ((this.academic_history.getRegistry().size() == 0) ? "" : this.academic_history.dumpHistory());
 	}
 
 	public ArrayList<Subject> getSubjects() {
@@ -146,9 +145,17 @@ public class Student extends User
 
 	public void kick() { // Expulsa al estudiante del colegio, sacandolo del curso en el que esta inscrito y finalizando su periodo academico.
 		this.academic_history.finalizeH(this.check_perf());
+		ArrayList<Student> stdcpy = new ArrayList<Student>(this.course.getCourse_students());
+		for(Student s : stdcpy)
+		{
+			if(s.getIdentification() == this.getIdentification())
+				this.course.getCourse_students().remove(s);
+		}
+		this.course = null;
+		this.subjects = new ArrayList<Subject>();	
 	}
 
-	public String check_info() {
+	public String check_info() { // Imprime la informacion (no academica) de un estudiante.
 		String info = "";
 		info += "Nombre: " + this.getName() + "\n";
 		info += "Cedula: " + this.getIdentification() + "\n";

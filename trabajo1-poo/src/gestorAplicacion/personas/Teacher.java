@@ -6,6 +6,12 @@ import gestorAplicacion.school_related.Course;
 import gestorAplicacion.school_related.Subject;
 import uiMain.Main;;
 
+/*
+ * Los profesores dictan materias en varios cursos. Una materia de un curso especifico puede ser dictada unicamente por un profesor.
+ * Esta restriccion no impide que un profesor pueda, por ejemplo, dictar Math en 2 cursos distintos, pero si que Math del curso sexto sea dictada por dos profesores al mismo tiempo.
+ * Los profesores tambien tienen un rendimiento y este se mide por como han resultado los estudiantes de las materias que este dicta.
+ */
+
 public class Teacher extends User
 {
 	
