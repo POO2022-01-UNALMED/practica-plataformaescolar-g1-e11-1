@@ -8,6 +8,12 @@ import gestorAplicacion.school_related.EvaluationEvent;
 import gestorAplicacion.school_related.Subject;
 import uiMain.Main;
 
+/*
+ * Los estudiantes se inscriben a un curso y automaticamente se le inscriben las materias que ofrece ese curso, tambien
+ * por razones de simplicidad, al anadir un estudiante a un curso se generan 3 notas al azar para los 3 examenes de cada materia
+ * esto con el fin de poder utilizar las funciones que calculan el promedio por materia y general de un estudiante.
+ */
+
 public class Student extends User 
 {
 	private static final long serialVersionUID = -1687054091292727513L;

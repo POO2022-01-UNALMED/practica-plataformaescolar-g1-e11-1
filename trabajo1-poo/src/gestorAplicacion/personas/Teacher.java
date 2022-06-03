@@ -117,7 +117,7 @@ public class Teacher extends User
 			ac.rmvTeacher(this);	// Las referencias a ese profesor en los cursos y todos los objetos del curso (materias) sera null.
 	}
 	
-	public void rmvSubjects(Course c)
+	public void rmvSubjects(Course c) // Desasigna al profesor de todas las materias que pertenezcan a un curso
 	{
 		ArrayList<Subject> cp = new ArrayList<Subject>(this.assignedSubjects);
 		for(Subject sb : cp)

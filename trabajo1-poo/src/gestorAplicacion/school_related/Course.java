@@ -69,7 +69,7 @@ public class Course implements Serializable, InfoOperations
 		Main.school.created_courses.add(this);
 	}
 	
-	public String add_student(Student s)
+	public String add_student(Student s) // Agrega un estudiante al curso
 	{
 		if(!s.isEnrolled() && s.getAH().isActive()) // No puede estar inscrito ya, tampoco puede tener historia academica inactiva.
 		{
@@ -85,7 +85,7 @@ public class Course implements Serializable, InfoOperations
 		return "El estudiante ya se encuentra inscrito a un curso o se encuentra vetado de la institucion.";
 	}
 	
-	public void add_teacher(Teacher t)
+	public void add_teacher(Teacher t) // Agrega un profesor al curso
 	{
 		for(Course c: t.getAssignedCourses()) // El profesor no puede estar mas de una vez en el mismo curso.
 		{
@@ -250,7 +250,7 @@ public class Course implements Serializable, InfoOperations
 		return perf;
 	}
 
-	public String check_info() {
+	public String check_info() { // Imprime informacion (no relacionada a desempeno academico de un curso)
 		String r = "";
 		
 		r += "Nombre del curso: " + this.course_name + "\n";
