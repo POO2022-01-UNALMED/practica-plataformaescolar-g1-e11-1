@@ -25,7 +25,7 @@ class User:
     def get_bloodtype(self):
         return self.bloodtype
 
-    def check_perf(self): # Este metodos sera sobreescrito en las clases Student y Teacher
+    def check_perf(self): # Este metodo sera sobreescrito en las clases Student y Teacher
         pass
-    def kick(self): # Este metodos sera sobreescrito en las clases Student y Teacher
+    def kick(self): # Este metodo sera sobreescrito en las clases Student y Teacher
         pass

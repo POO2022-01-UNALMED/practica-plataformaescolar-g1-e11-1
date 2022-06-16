@@ -1,24 +1,39 @@
 import tkinter as tk
 
-# Crear la ventana principal del programa.
+from database_impl.SchoolData import SchoolData
 
+# Crear la ventana principal del programa.
+GLOBAL_SCHOOL_DATA = SchoolData()
 
 if __name__ == "__main__":
+
     WND_HEIGHT = 600
-    WND_WIDTH = 400
+    WND_WIDTH = 800
 
-    WND_DIM = str(WND_HEIGHT) + "x" + str(WND_WIDTH)
+    WND_DIM = str(WND_WIDTH) + "x" + str(WND_HEIGHT)
 
-    wnd = tk.Tk()
-    wnd.title("CMA")  # Nombre de la ventana
-    wnd.geometry(WND_DIM)  # Dimensiones de la ventana
+    WND = tk.Tk()
+    WND.title("CMA")  # Nombre de la ventana
+    WND.geometry(WND_DIM)  # Dimensiones de la ventana
 
-    p1 = tk.Frame(wnd, bg="red", height=WND_HEIGHT-40, width = WND_WIDTH-40)# Superframe
-    p1.place(x=20, y=20, width= 240, height=360)
-    p2 = tk.Frame(wnd, bg="blue") # Superframe 2
-    p2.place(x=280, y=20, width= 300, height=360)
-    p3 = tk.Frame(p1, bg = "purple", height = 100, width = 230)
-    p3.place(relx = 0.046, rely = 0.046, height = 150, width = 210)
-    p4 = tk.Frame(p1, bg = "green", height = 240, width = 230)
+    p1 = tk.Frame(WND, highlightbackground = "black", highlightthickness = 4, width = WND_WIDTH/2 - 60, height = WND_HEIGHT - 40)# Superframe P1
+    p1.place(x=20, y=20)
+    
+    WND.update() # Esta funcion hace que las funciones winfo_width() y winfo_height regresen los valores correctos. (si no se usa, regresan 1)
 
-    wnd.mainloop()
+    p2 = tk.Frame(WND, highlightbackground = "black", highlightthickness = 4, width = WND_WIDTH/2 + 10, height = WND_HEIGHT - 40) # Superframe P2
+    p2.place(x = p1.winfo_width() + 30, y = 20)
+
+    WND.update()
+
+    p3 = tk.Frame(p1, highlightbackground = "white", highlightthickness = 4, height = p1.winfo_height()/3 + 40, width = p1.winfo_width() - 20) # Frame superior dentro de P1
+    p3.place(x = 5, y = 10)
+    p4 = tk.Frame(p1, highlightbackground = "white", highlightthickness = 4, height = p1.winfo_height()- (p1.winfo_height()/3 + 80), width = p1.winfo_width() - 20)
+    p4.place(x = 5, y = p2.winfo_height()/3 + 60)
+
+    p5 = tk.Frame(p2, highlightbackground = "white", highlightthickness = 4, height = p2.winfo_height()/3 + 40, width = p2.winfo_width() - 20) # Frame superior dentro de P1
+    p5.place(x = 5, y = 10)
+    p6 = tk.Frame(p2, highlightbackground = "white", highlightthickness = 4, height = p2.winfo_height()- (p2.winfo_height()/3 + 80), width = p2.winfo_width() - 20)
+    p6.place(x = 5, y = p2.winfo_height()/3 + 60)
+
+    WND.mainloop()
