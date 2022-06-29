@@ -1,11 +1,9 @@
 class User:
-    def __init__(self, name, id, birthplace, bloodtype, birthday, sex):
+    def __init__(self, name, id, birthday, sex):
         self.name = name
         self.id = id
-        self.birthplace = birthplace
         self.birthday = birthday
         self.sex = sex
-        self.bloodtype = bloodtype
 
     def get_name(self):
         return self.name
