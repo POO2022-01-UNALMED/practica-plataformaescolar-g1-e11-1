@@ -4,8 +4,8 @@ from tkinter.font import Font
 
 from PIL import ImageTk, Image
 
+from database_impl.Deserializer import Deserializer
 from database_impl.Serializer import Serializer
-from database_impl.SchoolData import SchoolData, GLOBAL_SCHOOL_DATA
 
 # Crear la ventana principal del programa.
 from logical_impl.Course import Course
@@ -68,6 +68,7 @@ def refresh_wnd():
     for widget in p2.winfo_children():
         widget.destroy()
 
+
 def new_student_form():
     refresh_wnd()
     nextm = tk.Button(p1, text="CANCELAR", height=2, width=20, command=add_student)
@@ -77,8 +78,8 @@ def new_student_form():
     noml = tk.Label(p2, text="NOMBRE DEL ESTUDIANTE")
     nom = tk.Entry(p2, width=20)
 
-    noml.place(relx = 0.1, rely=0.1)
-    nom.place(relx=0.1, rely = 0.15)
+    noml.place(relx=0.1, rely=0.1)
+    nom.place(relx=0.1, rely=0.15)
 
     idl = tk.Label(p2, text="IDENTIFICACION")
     id = tk.Entry(p2)
@@ -111,8 +112,6 @@ def new_student_form():
             if cour.getName() == cn.get():
                 cour.add_student(nstd)
 
-
-
     nextm = tk.Button(p1, text="CREAR", height=3, width=20, command=add_new)
     nextm['font'] = Font(family="Times New Roman", size=15, weight="bold")
     nextm.place(relx=0.1, rely=0.05)
@@ -125,6 +124,7 @@ def add_existing():
 
     cnl.place(relx=0.1, rely=0.05)
     cn.place(relx=0.1, rely=0.1)
+
     def add_existings():
         from database_impl.SchoolData import GLOBAL_SCHOOL_DATA
         for cour in GLOBAL_SCHOOL_DATA.CREATED_COURSES:
@@ -269,6 +269,7 @@ def handle_students():
         bsels.place(relx=0.8, rely=0.5)
         cf.pack(anchor="w", expand=0, fill="both")
 
+
 def add_existingp():
     refresh_wnd()
     cnl = tk.Label(p2, text="NOMBRE DEL CURSO A ASIGNAR")
@@ -296,6 +297,7 @@ def add_existingp():
     nextm = tk.Button(p1, text="REGRESAR", height=3, width=20, command=handle_professors)
     nextm['font'] = Font(family="Times New Roman", size=15, weight="bold")
     nextm.place(relx=0.1, rely=0.85)
+
 
 def new_teacher_form():
     refresh_wnd()
@@ -349,6 +351,7 @@ def new_teacher_form():
     nextm = tk.Button(p1, text="CREAR", height=3, width=20, command=add_new)
     nextm['font'] = Font(family="Times New Roman", size=15, weight="bold")
     nextm.place(relx=0.1, rely=0.05)
+
 
 def add_prof():
     refresh_wnd()
@@ -605,14 +608,10 @@ def draw_main_menu():
     nextm.place(relx=0.3, rely=0.35)
 
 
+Deserializer.deserialize_all()
+
 if __name__ == "__main__":
     draw_main_menu()
-    stdnt = Student("Javier", 11, "2022/12/22", "Male")
-    course = Course("Sexto")
-    course2 = Course("Septimo")
-    course3 = Course("Octavo")
-    course4 = Course("Noveno")
-    course5 = Course("Decimo")
-    course6 = Course("Undecimo")
+
 
     WND.mainloop()
